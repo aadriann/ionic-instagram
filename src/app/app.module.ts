@@ -12,7 +12,7 @@ import { PipesModule } from '../pipes/pipes.module';
 
 // Plugins
 import { Camera } from '@ionic-native/camera';
-
+import { ImagePicker } from '@ionic-native/image-picker';
 
 // Firebase
 import { AngularFireModule } from 'angularfire2';
@@ -45,6 +45,7 @@ import { FIREBASE_CONFIG } from '../resources/firebase.config'
     SplashScreen,
     AngularFireDatabase,
     Camera,
+    ImagePicker,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
