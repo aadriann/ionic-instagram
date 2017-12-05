@@ -20,6 +20,9 @@ import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/dat
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { FIREBASE_CONFIG } from '../resources/firebase.config'
 
+// Own Providers
+import { UploadFileProvider } from '../providers/upload-file/upload-file';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -46,7 +49,8 @@ import { FIREBASE_CONFIG } from '../resources/firebase.config'
     AngularFireDatabase,
     Camera,
     ImagePicker,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    UploadFileProvider
   ]
 })
 export class AppModule {}

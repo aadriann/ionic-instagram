@@ -1,12 +1,17 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-buttons end>
-      <button text-left ion-button (click)="closeModal()">
-        Close
+    <ion-buttons left>
+      <button ion-button (click)="closeModal()">
+        <ion-icon color="danger" name="close-circle"></ion-icon>
       </button>
     </ion-buttons>
     <ion-title text-center>{{ title | placeHolder }}</ion-title>
+    <ion-buttons right>
+      <button ion-button icon-only (click)="createPost()">
+        <ion-icon color="secondary" name="add"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>

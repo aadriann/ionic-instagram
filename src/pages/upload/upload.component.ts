@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { ViewController } from 'ionic-angular';
 
+import { UploadFileProvider } from '../../providers/upload-file/upload-file'
+import { UploadFileInterface } from '../../interfaces/uploadFile.interface';
+
 // Native Plugins
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
@@ -15,7 +18,10 @@ export class UploadPageComponent {
   previewImagePost: string = "";
   imagePost: string;
   
-  constructor(private viewCtrl: ViewController, private camera: Camera, private imagePicker: ImagePicker) {}
+  constructor(private viewCtrl: ViewController, 
+    private camera: Camera, 
+    private imagePicker: ImagePicker,
+    public _cap: UploadFileProvider) {}
   
   closeModal() {
     this.viewCtrl.dismiss();
@@ -44,8 +50,10 @@ export class UploadPageComponent {
       // Android only. Max images to be selected, defaults to 15. If this is set to 1, upon
     // selection of a single image, the plugin will return it.
     quality: 70,
-    outputType: 0,
-    maximumImagesCount: 1
+    outputType: 1,
+    maximumImagesCount: 1,
+    width: 8000,
+    height: 8000
     // max width and height to allow the images to be.  Will keep aspect
     // ratio no matter what.  So if both are 800, the returned image
     // will be at most 800 pixels wide and 800 pixels tall.  If the width is
@@ -65,9 +73,18 @@ export class UploadPageComponent {
       for (var i = 0; i < results.length; i++) {
         this.previewImagePost = 'data:image/jpeg;base64,' + results[i];
         this.imagePost = results[i];
+        console.log("Image", results[i]);
       }
     }, (err) => {
       console.log("Error Gallery", JSON.stringify(err));
      });
+  }
+
+  createPost() {
+    let file: UploadFileInterface = {
+      title: this.title,
+      img: this.imagePost
+    }
+    this._cap.uploadFile(file);
   }
 }
