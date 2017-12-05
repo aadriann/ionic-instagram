@@ -42,7 +42,8 @@
     "promise-polyfill": "^6.1.0",
     "rxjs": "5.5.2",
     "sw-toolbox": "3.6.0",
-    "zone.js": "0.8.18"
+    "zone.js": "0.8.18",
+    "com.synconset.imagepicker": "~2.1.8"
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.1.4",
