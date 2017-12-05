@@ -1,0 +1,41 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons end>
+      <button text-left ion-button (click)="closeModal()">
+        Close
+      </button>
+    </ion-buttons>
+    <ion-title text-center>{{ title | placeHolder }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Title</ion-label>
+        <ion-input type="text" [(ngModel)]="title"></ion-input>
+      </ion-item> 
+      <ion-item *ngIf="previewImagePost">
+        <img [src]="previewImagePost"/>
+      </ion-item> 
+    </ion-list>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <button ion-button block icon-left>
+            <ion-icon name="photos"></ion-icon>
+            Upload a photo
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button block icon-left (click)="openCamera()">
+            <ion-icon name="camera"></ion-icon>
+            Take a photo
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+</ion-content>
