@@ -3,10 +3,11 @@ import { ModalController } from 'ionic-angular';
 
 // Own Components
 import { UploadPageComponent } from "../upload/upload.component";
+import { UploadFileProvider } from '../../providers/upload-file/upload-file';
 
 // Firebase
-import { AngularFireDatabase } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
+// import { AngularFireDatabase } from 'angularfire2/database';
+// import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'page-home',
@@ -14,10 +15,11 @@ import { Observable } from 'rxjs/Observable';
 })
 export class HomePageComponent {
 
-  posts: Observable<any[]>;
+  // posts: Observable<any[]>;
+  more: boolean = true;
 
-  constructor(public modalCtrl: ModalController, afDB: AngularFireDatabase) {
-    this.posts = afDB.list('post').valueChanges();
+  constructor(public modalCtrl: ModalController, private _ufp: UploadFileProvider) {
+    // this.posts = afDB.list('post').valueChanges();
   }
 
   showPostModal() {
@@ -25,4 +27,12 @@ export class HomePageComponent {
     modal.present();
   }
 
+  doInfinite(infiniteScroll) {
+    this._ufp.getImages().then(
+      (more: boolean) => {
+        this.more = more;
+        infiniteScroll.complete();
+      }
+    );
+  }
 }
