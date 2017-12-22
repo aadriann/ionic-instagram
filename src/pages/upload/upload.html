@@ -8,7 +8,7 @@
     </ion-buttons>
     <ion-title text-center>{{ title | placeHolder }}</ion-title>
     <ion-buttons right>
-      <button ion-button icon-only (click)="createPost()">
+      <button ion-button icon-only (click)="createPost()" [disabled]="title.length <= 1 || previewImagePost.length <= 1">
         <ion-icon color="secondary" name="add"></ion-icon>
       </button>
     </ion-buttons>
@@ -22,10 +22,10 @@
       <ion-item>
         <ion-label floating>Title</ion-label>
         <ion-input type="text" [(ngModel)]="title"></ion-input>
-      </ion-item> 
+      </ion-item>
       <ion-item *ngIf="previewImagePost">
         <img [src]="previewImagePost"/>
-      </ion-item> 
+      </ion-item>
     </ion-list>
     <ion-grid>
       <ion-row>

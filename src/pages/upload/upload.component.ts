@@ -14,15 +14,15 @@ import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
 })
 export class UploadPageComponent {
 
-  title: string;
+  title: string = "";
   previewImagePost: string = "";
   imagePost: string;
-  
-  constructor(private viewCtrl: ViewController, 
-    private camera: Camera, 
+
+  constructor(private viewCtrl: ViewController,
+    private camera: Camera,
     private imagePicker: ImagePicker,
     public _cap: UploadFileProvider) {}
-  
+
   closeModal() {
     this.viewCtrl.dismiss();
   }
@@ -59,14 +59,14 @@ export class UploadPageComponent {
     // will be at most 800 pixels wide and 800 pixels tall.  If the width is
     // 800 and height 0 the image will be 800 pixels wide if the source
     // is at least that wide.
-    
+
     // quality of resized image, defaults to 100
-    
+
     // output type, defaults to FILE_URIs.
-    // available options are 
-    // window.imagePicker.OutputType.FILE_URI (0) or 
+    // available options are
+    // window.imagePicker.OutputType.FILE_URI (0) or
     // window.imagePicker.OutputType.BASE64_STRING (1)
-    
+
     //https://ionicframework.com/docs/native/image-picker/
     }
     this.imagePicker.getPictures(options).then((results) => {
@@ -85,6 +85,8 @@ export class UploadPageComponent {
       title: this.title,
       img: this.imagePost
     }
-    this._cap.uploadFile(file);
+    this._cap.uploadFile(file).then( () => {
+      this.closeModal();
+    });
   }
 }

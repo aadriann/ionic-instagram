@@ -10,7 +10,9 @@ import * as firebase from 'firebase';
 @Injectable()
 export class UploadFileProvider {
 
-  constructor(private toastCtrl: ToastController) {
+images: any[] = [];
+
+  constructor(private toastCtrl: ToastController, private angularFirebaseDb: AngularFireDatabase) {
     console.log('Hello UploadFileProvider Provider');
   }
 
@@ -20,25 +22,43 @@ export class UploadFileProvider {
       this.showToast("Loading...");
       let firebaseStorage = firebase.storage().ref();
       let fileName: string = new Date().valueOf().toString();
-      let uploadTask: firebase.storage.UploadTask = 
+      let uploadTask: firebase.storage.UploadTask =
         firebaseStorage.child(`img/${ fileName }`)
         .putString(file.img, 'base64', { contentType: 'image/jpeg' });
 
-      uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, 
+      uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
         () => {}, // Porcentage de cuantos MB se han subido
         (error) => { // Error
           console.error("Upload Error", JSON.stringify(error));
           this.showToast(JSON.stringify(error));
           reject(); // Throw catch
-        }, 
+        },
         () => { // Success
           console.log("OK");
           this.showToast("Uploaded image");
+          let url = uploadTask.snapshot.downloadURL;
+          this.createPost(file.title, url, fileName);
           resolve();
-        } 
+        }
       )
     });
     return promise;
+  }
+
+  private createPost(title: string, url: string, fileName: string) {
+    let post: UploadFileInterface = {
+      img: url,
+      title: title,
+      key: fileName
+    };
+    console.log("Post", JSON.stringify(post));
+    //automatic id: this.angularFirebaseDb.list('/post').push(post);
+    this.angularFirebaseDb.object(`/post/${fileName}`).update(post)
+    .then((response) => {
+      this.images.push(response);
+    }, (error) => {
+      this.showToast(error);
+    });
   }
 
   showToast(msg: string) {
